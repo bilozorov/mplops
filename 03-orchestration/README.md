@@ -4,6 +4,8 @@ The goal of this homework is to train a simple model for predicting the duration
 
 We'll use [the same NYC taxi dataset](https://www1.nyc.gov/site/tlc/about/tlc-trip-record-data.page), the **Yellow** taxi data for 2023. 
 
+---
+
 ## Question 1. Run Mage
 
 First, let's run Mage with Docker Compose. Follow the quick start guideline. 
@@ -12,6 +14,11 @@ What's the version of Mage we run?
 
 (You can see it in the UI)
 
+### Answer 1 = v0.9.71
+
+![Question 1. Run Mage](https://raw.githubusercontent.com/bilozorov/mplops/main/03-orchestration/imgs/Question%201.%20Run%20Mage.png)
+
+---
 
 ## Question 2. Creating a project
 
@@ -23,6 +30,12 @@ How many lines are in the created `metadata.yaml` file?
 - 45
 - 55
 - 65
+
+### Answer 2 = 55
+
+![Question 2. Creating a project](https://raw.githubusercontent.com/bilozorov/mplops/main/03-orchestration/imgs/Question%202.%20Creating%20a%20project.png)
+
+---
 
 ## Question 3. Creating a pipeline
 
@@ -37,8 +50,13 @@ How many records did we load?
 - 3,403,766
 - 3,603,766
 
-## Question 4. Data preparation
+### Answer 3 = 3,403,766
 
+![Question 3. Creating a pipeline](https://raw.githubusercontent.com/bilozorov/mplops/main/03-orchestration/imgs/Question%203.%20Creating%20a%20pipeline.png)
+
+---
+
+## Question 4. Data preparation
 
 Let's use the same logic for preparing the data we used previously. We will need to create a transformer code block and put this code there.
 
@@ -72,6 +90,12 @@ What's the size of the result?
 - 3,316,216 
 - 3,503,766
 
+### Answer 4 = 3,316,216
+
+![Question 4. Data preparation](https://raw.githubusercontent.com/bilozorov/mplops/main/03-orchestration/imgs/Question%204.%20Data%20preparation.png)
+
+---
+
 ## Question 5. Train a model
 
 We will now train a linear regression model using the same code as in homework 1
@@ -91,61 +115,15 @@ Hint: print the `intercept_` field in the code block
 - 27.77
 - 31.77
 
+### Answer 1 = 24.77
+
+![Question 5. Train a model](https://raw.githubusercontent.com/bilozorov/mplops/main/03-orchestration/imgs/Question%205.%20Train%20a%20model.png)
+
+---
+
 ## Question 6. Register the model 
 
 The model is trained, so let's save it with MLFlow.
-
-If you run mage with docker-compose, stop it with Ctrl+C or 
-
-```bash
-docker-compose down
-```
-
-Let's create a dockerfile for mlflow, e.g. `mlflow.dockerfile`:
-
-```dockerfile
-FROM python:3.10-slim
-
-RUN pip install mlflow==2.12.1
-
-EXPOSE 5000
-
-CMD [ \
-    "mlflow", "server", \
-    "--backend-store-uri", "sqlite:///home/mlflow/mlflow.db", \
-    "--host", "0.0.0.0", \
-    "--port", "5000" \
-]
-```
-
-And add it to the docker-compose.yaml:
-
-```yaml
-  mlflow:
-    build:
-      context: .
-      dockerfile: mlflow.dockerfile
-    ports:
-      - "5000:5000"
-    volumes:
-      - "${PWD}/mlflow:/home/mlflow/"
-    networks:
-      - app-network
-```
-
-Note that `app-network` is the same network as for mage and postgre containers.
-If you use a different compose file, adjust it.
-
-We should already have `mlflow==2.12.1` in requirements.txt in the mage project we created for the module. If you're starting from scratch, add it to your requirements.
-
-Next, start the compose again and create a data exporter block.
-
-In the block, we
-
-* Log the model (linear regression)
-* Save and log the artifact (dict vectorizer)
-
-If you used the suggested docker-compose snippet, mlflow should be accessible at `http://mlflow:5000`.
 
 Find the logged model, and find MLModel file. What's the size of the model? (`model_size_bytes` field):
 
@@ -156,11 +134,11 @@ Find the logged model, and find MLModel file. What's the size of the model? (`mo
 
 > Note: typically we do two last steps in one code block 
 
+### Answer 1 = 4,534
 
-## Submit the results
+![Question 6. Register the model](https://raw.githubusercontent.com/bilozorov/mplops/main/03-orchestration/imgs/Question%206.%20Register%20the%20model.png)
 
-* Submit your results here: https://courses.datatalks.club/mlops-zoomcamp-2024/homework/hw3
-* If your answer doesn't match options exactly, select the closest one
+---
 
 
 
